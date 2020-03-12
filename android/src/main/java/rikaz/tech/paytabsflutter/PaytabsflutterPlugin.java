@@ -64,6 +64,7 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
         PaytabsflutterPlugin handler = new PaytabsflutterPlugin();
         channel.setMethodCallHandler(handler);
         registrar.addActivityResultListener(handler);
+        handler.activity = registrar.activity();
 
     }
 
