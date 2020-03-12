@@ -32,11 +32,12 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  * PaytabsflutterPlugin
  */
 public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
+    private static final int MY_REQUEST_CODE = 0x85faced;
     private final Random random;
     private final Handler handler;
     private Activity activity;
-    private Map<Integer, Result> codes = new HashMap<>();
     private boolean running;
+    private Result result;
 
     public PaytabsflutterPlugin() {
         this.random = new Random();
@@ -89,11 +90,11 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
                 intent.putExtra(PaymentParams.STATE_BILLING, (String) call.argument("billing_state"));
                 intent.putExtra(PaymentParams.COUNTRY_BILLING, (String) call.argument("billing_country"));
                 intent.putExtra(PaymentParams.POSTAL_CODE_BILLING, (String) call.argument("billing_postal_code")); //Put Country Phone code if Postal code not available '00973'
-                int requestCode = random.nextInt();
-                codes.put(requestCode, result);
+
+                this.result = result;
                 handler.postDelayed(this::run, 1000);
                 running = true;
-                activity.startActivityForResult(intent, requestCode);
+                activity.startActivityForResult(intent, MY_REQUEST_CODE);
             }
         } else {
             result.notImplemented();
@@ -127,29 +128,27 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
     }
 
     @Override
-    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (codes.containsKey(requestCode)) {
+    public synchronized boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MY_REQUEST_CODE && result != null) {
             if (resultCode == 0) {
-                Result r = codes.get(requestCode);
-                r.success(new HashMap<String, String>());
-                codes.remove(requestCode);
+                result.success(new HashMap<String, String>());
+                result = null;
                 return true;
             }
             Map<String, String> map = new HashMap<>();
             for (String key : data.getExtras().keySet()) {
                 map.put(key, data.getExtras().get(key).toString());
             }
-            Result r = codes.get(requestCode);
-            r.success(map);
-            codes.remove(requestCode);
+            result.success(map);
+            result = null;
             return true;
         }
         return false;
     }
 
-    private void run() {
+    private synchronized void run() {
         running = false;
-        if (codes.size() == 0)
+        if (result == null)
             return;
         ComponentName cn = getTopActivity();
         if (cn == null)
@@ -159,12 +158,9 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
         ) {
             // delay because it's maybe already at main activity and activity result not delivered yet for some reason!
             handler.postDelayed(() -> {
-                for (Map.Entry<Integer, Result> entry : codes.entrySet()) {
-                    Result result = entry.getValue();
+                if (result != null)
                     result.error("TIMEOUT", "paytabs exited from activity without calling onActivityResult", null);
-                }
-                codes.clear();
-            }, 1000);
+            }, 100);
         } else {
             handler.postDelayed(this::run, 1000);
         }

@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
             child: Text("TT"),
             onPressed: () async {
               //   var x = await Paytabsflutter.openActivity(
+              //     customer_name: "Majed Daas",
               //     merchant_email: "freedoumanian@gmail.com",
               //     secret_key:
               //         "secret key",
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
               //     billing_postal_code: "00000",
               //     language: "ar",
               //   );
+//              print(x);
             },
           ),
         ),

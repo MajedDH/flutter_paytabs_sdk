@@ -16,6 +16,21 @@ Paytabs gateway sdk flutter wrapper
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
+  s.preserve_paths = 'paytabs-iOS.framework'
+  #s.xcconfig = { 'OTHER_LDFLAGS' => '-framework paytabs-iOS' }
+  s.vendored_frameworks = 'paytabs-iOS.framework'
+  s.resources  = "Resources.bundle"
+  
+  s.dependency 'BIObjCHelpers'
+  s.dependency 'IQKeyboardManager', '~> 4.0.2'
+  s.dependency 'AFNetworking'
+  s.dependency 'Mantle'
+  s.dependency 'Reachability'
+  s.dependency 'Lockbox'
+  s.dependency 'SBJson'
+  s.dependency 'PINCache'
+  s.dependency 'MBProgressHUD', '~> 1.1.0'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-all_load -ObjC' }
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
