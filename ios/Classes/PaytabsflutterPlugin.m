@@ -76,8 +76,8 @@
     };
     
     [rootview presentViewController:view animated:true completion:nil];
-    NSDictionary *dict = @{ @"KET" : @"TEST", @"KEY" : @"TEST"};
+  //  NSDictionary *dict = @{ @"KET" : @"TEST", @"KEY" : @"TEST"};
     
-    result(dict);
+  //  result(dict);
 }
 @end
