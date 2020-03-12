@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:paytabsflutter/paytabsflutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,25 +47,25 @@ class _MyAppState extends State<MyApp> {
           title: RaisedButton(
             child: Text("TT"),
             onPressed: () async {
-              var x = await Paytabsflutter.openActivity(
-                merchant_email: "freedoumanian@gmail.com",
-                secret_key:
-                    "0NOkmHRn2sqRAiH4VWPlIEdF8I146cq6ZerlViIYK9PkrwpnseIaTVP1DR6K3wQ2LhoGz7FjguEH134tiNEbJudnlj7oQXrBeQiO",
-                transaction_title:
-                    "Consultation أحوال شخصية from lawyer مكتب الفارس القانوني to agent: Majed Daas",
-                amount: 50.0,
-                currency_code: "SAR",
-                customer_phone_number: "+905531777384",
-                customer_email: "abdalrazak.it@gmail.com",
-                order_id: "283",
-                product_name: "bsjsks",
-                billing_address: "Guneykent Mh., 10222 Sk. No 35/1",
-                billing_city: "Gaziantep",
-                billing_state: "Gaziantep",
-                billing_country: "SAU",
-                billing_postal_code: "27200",
-                language: "ar",
-              );
+              //   var x = await Paytabsflutter.openActivity(
+              //     merchant_email: "freedoumanian@gmail.com",
+              //     secret_key:
+              //         "secret key",
+              //     transaction_title:
+              //         "some transaction for some client",
+              //     amount: 50.0,
+              //     currency_code: "SAR",
+              //     customer_phone_number: "+999999999999",
+              //     customer_email: "example@gmail.com",
+              //     order_id: "111111",
+              //     product_name: "names",
+              //     billing_address: "Some neighborhood., 99999 st. No 35/1",
+              //     billing_city: "city",
+              //     billing_state: "state",
+              //     billing_country: "SAU",
+              //     billing_postal_code: "00000",
+              //     language: "ar",
+              //   );
             },
           ),
         ),
