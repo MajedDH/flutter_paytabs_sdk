@@ -75,7 +75,7 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
                 Intent intent = new Intent(activity, PayTabActivity.class);
                 intent.putExtra(PaymentParams.MERCHANT_EMAIL, (String) call.argument("merchant_email"));
                 intent.putExtra(PaymentParams.SECRET_KEY, (String) call.argument("secret_key"));//Add your Secret Key Here
-                if (call.hasArgument("language") && call.argument("language").equals("ar"))
+                if (call.hasArgument("language") && call.argument("language") != null && call.argument("language").equals("ar"))
                     intent.putExtra(PaymentParams.LANGUAGE, PaymentParams.ARABIC);
                 else
                     intent.putExtra(PaymentParams.LANGUAGE, PaymentParams.ENGLISH);
