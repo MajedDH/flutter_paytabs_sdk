@@ -47,7 +47,7 @@
                                             andWithMerchantEmail: (NSString* ) call.arguments[@"merchant_email"]
                                             andWithMerchantSecretKey: (NSString* ) call.arguments[@"secret_key"]
                                             andWithAssigneeCode:@"SDK"
-                                            andWithThemeColor: [[self class] colorFromHexString:(NSString* ) call.arguments[@"secret_key"]]
+                                            andWithThemeColor: [[self class] colorFromHexString:(NSString* ) call.arguments[@"color"]]
                                             andIsThemeColorLight:YES];
     
     view.didReceiveBackButtonCallback = ^{
