@@ -91,6 +91,7 @@ public class PaytabsflutterPlugin implements FlutterPlugin, MethodCallHandler, A
                 intent.putExtra(PaymentParams.STATE_BILLING, (String) call.argument("billing_state"));
                 intent.putExtra(PaymentParams.COUNTRY_BILLING, (String) call.argument("billing_country"));
                 intent.putExtra(PaymentParams.POSTAL_CODE_BILLING, (String) call.argument("billing_postal_code")); //Put Country Phone code if Postal code not available '00973'
+                intent.putExtra(PaymentParams.PAY_BUTTON_COLOR, (String) call.argument("color")); //Put Country Phone code if Postal code not available '00973'
 
                 this.result = result;
                 handler.postDelayed(this::run, 1000);
