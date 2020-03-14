@@ -28,7 +28,7 @@
                                             andWithCustomerTitle:(NSString* ) call.arguments[@"customer_name"]
                                             andWithCurrencyCode:(NSString* ) call.arguments[@"currency_code"]
                                             andWithTaxAmount:0
-                                            andWithSDKLanguage:[(NSString* ) call.arguments[@"currency_code"] isEqual:@"ar"] ? @"ar" : @"en"
+                                            andWithSDKLanguage:[(NSString* ) call.arguments[@"language"] isEqual:@"ar"] ? @"ar" : @"en"
                                             andWithShippingAddress: (NSString* ) call.arguments[@"billing_address"]
                                             andWithShippingCity:      (NSString* ) call.arguments[@"billing_city"]
                                             andWithShippingCountry:   (NSString* ) call.arguments[@"billing_country"]
