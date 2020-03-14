@@ -22,6 +22,7 @@ class Paytabsflutter {
     @required String billing_state,
     @required String billing_country,
     @required String billing_postal_code,
+    @required String color,
     String language,
   }) async {
     Map<dynamic, dynamic> map = await _channel.invokeMethod('openActivity', {
@@ -40,7 +41,8 @@ class Paytabsflutter {
       "billing_state": billing_state,
       "billing_country": billing_country,
       "billing_postal_code": billing_postal_code,
-      "language": language
+      "language": language,
+      "color": color
     });
     return map.cast<String, String>();
   }

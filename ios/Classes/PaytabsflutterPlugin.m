@@ -12,7 +12,7 @@
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
-- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {    
     NSError *error;
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString *documentsPath = [resourcePath stringByAppendingPathComponent:@"Frameworks/paytabsflutter.framework/Resources.bundle"];
@@ -28,7 +28,7 @@
                                             andWithCustomerTitle:(NSString* ) call.arguments[@"customer_name"]
                                             andWithCurrencyCode:(NSString* ) call.arguments[@"currency_code"]
                                             andWithTaxAmount:0
-                                            andWithSDKLanguage:@"ar"
+                                            andWithSDKLanguage:[(NSString* ) call.arguments[@"currency_code"] isEqual:@"ar"] ? @"ar" : @"en"
                                             andWithShippingAddress: (NSString* ) call.arguments[@"billing_address"]
                                             andWithShippingCity:      (NSString* ) call.arguments[@"billing_city"]
                                             andWithShippingCountry:   (NSString* ) call.arguments[@"billing_country"]
@@ -47,7 +47,7 @@
                                             andWithMerchantEmail: (NSString* ) call.arguments[@"merchant_email"]
                                             andWithMerchantSecretKey: (NSString* ) call.arguments[@"secret_key"]
                                             andWithAssigneeCode:@"SDK"
-                                            andWithThemeColor:[UIColor redColor]
+                                            andWithThemeColor: [[self class] colorFromHexString:(NSString* ) call.arguments[@"secret_key"]]
                                             andIsThemeColorLight:YES];
     
     view.didReceiveBackButtonCallback = ^{
@@ -76,8 +76,15 @@
     };
     
     [rootview presentViewController:view animated:true completion:nil];
-    NSDictionary *dict = @{ @"KET" : @"TEST", @"KEY" : @"TEST"};
-    
-    result(dict);
 }
+
+// Assumes input like "#00FF00" (#RRGGBB).
++ (UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
 @end
