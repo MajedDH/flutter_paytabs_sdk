@@ -3,6 +3,8 @@
 
 @implementation PaytabsflutterPlugin
 
+ UIView* vSpinner;
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"paytabsflutter"
@@ -56,13 +58,11 @@
     };
     
     view.didStartPreparePaymentPage = ^{
-        // Start Prepare Payment Page
-        // Show loading indicator
+        [self showSpinneronView: [view view]];
     };
     
     view.didFinishPreparePaymentPage = ^{
-        // Finish Prepare Payment Page
-        // Stop loading indicator
+        [self removeSpinner];
     };
     
     view.didReceiveFinishTransactionCallback = ^(int responseCode, NSString * _Nonnull resultt, int transactionID, NSString * _Nonnull tokenizedCustomerEmail, NSString * _Nonnull tokenizedCustomerPassword, NSString * _Nonnull token, BOOL transactionState) {
@@ -77,6 +77,35 @@
     
     [rootview presentViewController:view animated:true completion:nil];
 }
+
+
+- (void)showSpinneronView:(UIView*) view {
+    UIView* spinnerView = [[UIView alloc] initWithFrame:[view bounds]];
+    UIColor* color = [[UIColor  alloc] initWithRed:0.5 green: 0.5   blue: 0.5  alpha: 0.5]; 
+    spinnerView.backgroundColor = color;
+
+    UIActivityIndicatorView* ai = [[UIActivityIndicatorView alloc]  init];
+    [ai setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    [ai startAnimating];
+    [ai setCenter: [spinnerView center]];
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [spinnerView addSubview:ai];
+        [view addSubview: spinnerView];
+    });
+    vSpinner = spinnerView;
+}
+
+- (void)removeSpinner  {
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        if(vSpinner!=nil) {
+            [vSpinner removeFromSuperview];
+            vSpinner = nil;
+        }
+    });
+}
+
+
+
 
 // Assumes input like "#00FF00" (#RRGGBB).
 + (UIColor *)colorFromHexString:(NSString *)hexString {
