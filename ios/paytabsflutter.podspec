@@ -30,6 +30,7 @@ Paytabs gateway sdk flutter wrapper
   s.dependency 'SBJson'
   s.dependency 'PINCache'
   s.dependency 'MBProgressHUD', '~> 1.1.0'
+  s.dependency 'libPhoneNumber-iOS', '~> 0.8'
   s.xcconfig = { 'OTHER_LDFLAGS' => '-all_load -ObjC' }
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
