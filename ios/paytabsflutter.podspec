@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'paytabsflutter'
-  s.version          = '0.0.1'
+  s.version          = '0.0.5'
   s.summary          = 'Paytabs gateway sdk flutter wrapper'
   s.description      = <<-DESC
 Paytabs gateway sdk flutter wrapper
